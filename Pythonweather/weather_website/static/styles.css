@@ -1,0 +1,115 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;  /* Ensure both html and body take full height */
+    background-color: black;  /* Set the background color to black for both */
+    color: white;  /* Make sure the text color is white for visibility */
+    font-family: Arial, sans-serif;
+}
+
+
+body {
+    background-color: black;
+    font-family: Arial, sans-serif;
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;  /* Align items at the top */
+    align-items: center;
+    min-height: 100vh;  /* Ensures the body takes up at least the full height of the viewport */
+    text-align: center;
+}
+
+
+h1 {
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Form Styling */
+form {
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: yellowgreen;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: green;
+}
+
+/* Weather Box Container */
+.weather-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.weather-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 45%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.weather-box h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.weather-box p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Music Player */
+.music-player {
+   
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.music-player h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+audio {
+    width: 100%;
+    border-radius: 5px;
+}

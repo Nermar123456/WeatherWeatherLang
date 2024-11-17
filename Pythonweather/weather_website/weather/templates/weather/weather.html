@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!-- Weather Icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+</head>
+<body>
+    <h1>Weather App</h1>
+
+    <!-- Forms for Input -->
+    <form method="get">
+        <input type="text" name="city" placeholder="Enter city" value="">
+        <input type="text" name="city1" placeholder="Enter another city" value="">
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <!-- Weather Data -->
+    <div class="weather-container">
+        <div class="weather-box">
+            {% if data %}
+                <h2>Weather in {{ data.name }}</h2>
+                
+                <!-- Country Flag -->
+                <img src="https://flagcdn.com/w320/{{ data.sys.country | lower }}.png" alt="Flag of {{ data.sys.country }}" width="32" height="32">
+                
+                <!-- Weather Icon -->
+                <p>
+                    <i id="weather-icon" class="wi" style="font-size: 50px;"></i>
+                </p>
+
+                <!-- City Image from Unsplash API -->
+                <p>
+                    <img id="city-image" src="" alt="City Image" width="200" height="150">
+                </p>
+
+                <p>Temperature: {{ data.main.temp }}°C</p>
+                <p>Condition: {{ data.weather.0.description }}</p>
+                <p>Humidity: {{ data.main.humidity }}%</p>
+                <p>Wind Speed: {{ data.wind.speed }} m/s</p>
+            {% else %}
+                {% if city %}
+                    <p>City "{{ city }}" not found or API error!</p>
+                {% else %}
+                    <p>No city entered.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="weather-box">
+            {% if data1 %}
+                <h2>Weather in {{ data1.name }}</h2>
+                
+                <!-- Country Flag -->
+                <img src="https://flagcdn.com/w320/{{ data1.sys.country | lower }}.png" alt="Flag of {{ data1.sys.country }}" width="32" height="32">
+                
+                <!-- Weather Icon -->
+                <p>
+                    <i id="weather-icon1" class="wi" style="font-size: 50px;"></i>
+                </p>
+
+                <!-- City Image from Unsplash API -->
+                <p>
+                    <img id="city-image1" src="" alt="City Image" width="200" height="150">
+                </p>
+
+                <p>Temperature: {{ data1.main.temp }}°C</p>
+                <p>Condition: {{ data1.weather.0.description }}</p>
+                <p>Humidity: {{ data1.main.humidity }}%</p>
+                <p>Wind Speed: {{ data1.wind.speed }} m/s</p>
+            {% else %}
+                {% if city1 %}
+                    <p>City "{{ city1 }}" not found or API error!</p>
+                {% else %}
+                    <p>No city entered.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Music Player Section -->
+    <div class="music-player">
+        <h2>Enjoy the Music</h2>
+        <iframe id="music-iframe" width="560" height="315" 
+                src="https://www.youtube.com/embed/u9FixPMQRJ0?autoplay=1&loop=1&playlist=u9FixPMQRJ0&mute=1" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+    </div>
+
+    <script>
+        window.onload = function() {
+            var cityName = "{{ data.name }}"; // Extract the city name from the server-side context
+            var cityName1 = "{{ data1.name }}"; // Extract second city name if available
+            var weatherIconCode = "{{ data.weather.0.icon }}"; // Weather icon code from Django template
+            var weatherIconCode1 = "{{ data1.weather.0.icon }}"; // Weather icon code for second city
+
+            // Map weather icon codes to Weather Icons class names
+            function getWeatherIconClass(iconCode) {
+                var iconMapping = {
+                    "01d": "wi-day-sunny", // Clear day
+                    "01n": "wi-night-clear", // Clear night
+                    "02d": "wi-day-cloudy", // Partly cloudy day
+                    "02n": "wi-night-alt-cloudy", // Partly cloudy night
+                    "03d": "wi-cloud", // Cloudy
+                    "03n": "wi-cloud", // Cloudy
+                    "04d": "wi-cloudy", // Overcast
+                    "04n": "wi-cloudy", // Overcast
+                    "09d": "wi-showers", // Showers
+                    "09n": "wi-showers", // Showers
+                    "10d": "wi-rain", // Rain
+                    "10n": "wi-rain", // Rain
+                    "11d": "wi-thunderstorm", // Thunderstorm
+                    "11n": "wi-thunderstorm", // Thunderstorm
+                    "13d": "wi-snow", // Snow
+                    "13n": "wi-snow", // Snow
+                    "50d": "wi-fog", // Fog
+                    "50n": "wi-fog" // Fog
+                };
+                return iconMapping[iconCode] || "wi-cloudy"; // Default to "cloudy" if unknown
+            }
+
+            // Set the weather icons using the mapping function
+            if (weatherIconCode) {
+                document.getElementById('weather-icon').classList.add('wi', getWeatherIconClass(weatherIconCode));
+            }
+            if (weatherIconCode1) {
+                document.getElementById('weather-icon1').classList.add('wi', getWeatherIconClass(weatherIconCode1));
+            }
+
+            // Function to fetch city image from Unsplash API
+            function fetchCityImage(city) {
+                var accessKey = 'YOUR_UNSPLASH_API_KEY'; // Replace with your Unsplash API key
+                var url = 'https://api.unsplash.com/photos/random?query=' + city + '&client_id=' + accessKey;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        var imageUrl = data[0]?.urls?.regular;
+                        if (imageUrl) {
+                            // Update the image element with the fetched image
+                            document.getElementById('city-image').src = imageUrl;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching city image:', error);
+                    });
+            }
+
+            function fetchCityImage1(city) {
+                var accessKey = 'YOUR_UNSPLASH_API_KEY'; // Replace with your Unsplash API key
+                var url = 'https://api.unsplash.com/photos/random?query=' + city + '&client_id=' + accessKey;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        var imageUrl = data[0]?.urls?.regular;
+                        if (imageUrl) {
+                            // Update the image element with the fetched image
+                            document.getElementById('city-image1').src = imageUrl;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching city image:', error);
+                    });
+            }
+
+            // Fetch the images when the page loads
+            if (cityName) {
+                fetchCityImage(cityName);
+            }
+            if (cityName1) {
+                fetchCityImage1(cityName1);
+            }
+        };
+    </script>
+</body>
+</html>
