@@ -1,83 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <!-- Weather Icons CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+    <style>
+        /* Additional styling to ensure the news container is responsive */
+        .latest-news {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .latest-news h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #news-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow: auto;
+            max-height: 400px; /* Adjust as needed */
+        }
+
+        .news-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-item h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .news-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .news-item a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+        #news-container {
+    margin-top: 20px;
+}
+.news-image {
+    text-align: center;  /* Center the image */
+    margin: 0 auto;      /* Optional: ensures it centers within its container */
+}
+
+.news-image img {
+    display: inline-block;  /* Treats the image as an inline element to respect the text-align */
+}
+
+.news-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.news-item h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.news-item p {
+    font-size: 14px;
+    color: #555;
+}
+
+.news-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.news-item a:hover {
+    text-decoration: underline;
+}
+
+    </style>
 </head>
 <body>
-    <h1>Weather App</h1>
+    <h1>Weather Weather Lang</h1>
 
     <!-- Forms for Input -->
-    <form method="get">
-        <input type="text" name="city" placeholder="Enter city" value="">
-        <input type="text" name="city1" placeholder="Enter another city" value="">
+    <form method="get" id="weather-form">
+        <input type="text" name="city" id="city" placeholder="Enter city" value="{{ city }}">
+        <input type="text" name="city1" id="city1" placeholder="Enter another city" value="{{ city1 }}">
         <button type="submit">Get Weather</button>
     </form>
 
-    <!-- Weather Data -->
+    <!-- Weather Data Section -->
     <div class="weather-container">
-        <div class="weather-box">
+        <!-- Left City Weather Box -->
+        <div id="left-city" class="weather-box">
             {% if data %}
                 <h2>Weather in {{ data.name }}</h2>
-                
-                <!-- Country Flag -->
                 <img src="https://flagcdn.com/w320/{{ data.sys.country | lower }}.png" alt="Flag of {{ data.sys.country }}" width="32" height="32">
-                
-                <!-- Weather Icon -->
-                <p>
-                    <i id="weather-icon" class="wi" style="font-size: 50px;"></i>
-                </p>
-
-                <!-- City Image from Unsplash API -->
-                <p>
-                    <img id="city-image" src="" alt="City Image" width="200" height="150">
-                </p>
-
+                <p><i id="weather-icon" class="wi" style="font-size: 50px;"></i></p>
+                <!-- <p><img id="city-image" src="" alt="City Image" width="200" height="150"></p> -->
                 <p>Temperature: {{ data.main.temp }}°C</p>
                 <p>Condition: {{ data.weather.0.description }}</p>
                 <p>Humidity: {{ data.main.humidity }}%</p>
                 <p>Wind Speed: {{ data.wind.speed }} m/s</p>
             {% else %}
-                {% if city %}
-                    <p>City "{{ city }}" not found or API error!</p>
-                {% else %}
-                    <p>No city entered.</p>
-                {% endif %}
+                <p>No city entered or city not found.</p>
             {% endif %}
         </div>
 
-        <div class="weather-box">
+        <!-- Right City Weather Box -->
+        <div id="right-city" class="weather-box">
             {% if data1 %}
                 <h2>Weather in {{ data1.name }}</h2>
-                
-                <!-- Country Flag -->
                 <img src="https://flagcdn.com/w320/{{ data1.sys.country | lower }}.png" alt="Flag of {{ data1.sys.country }}" width="32" height="32">
-                
-                <!-- Weather Icon -->
-                <p>
-                    <i id="weather-icon1" class="wi" style="font-size: 50px;"></i>
-                </p>
-
-                <!-- City Image from Unsplash API -->
-                <p>
-                    <img id="city-image1" src="" alt="City Image" width="200" height="150">
-                </p>
-
+                <p><i id="weather-icon1" class="wi" style="font-size: 50px;"></i></p>
+                <!-- <p><img id="city-image1" src="" alt="City Image" width="200" height="150"></p> -->
                 <p>Temperature: {{ data1.main.temp }}°C</p>
                 <p>Condition: {{ data1.weather.0.description }}</p>
                 <p>Humidity: {{ data1.main.humidity }}%</p>
                 <p>Wind Speed: {{ data1.wind.speed }} m/s</p>
             {% else %}
-                {% if city1 %}
-                    <p>City "{{ city1 }}" not found or API error!</p>
-                {% else %}
-                    <p>No city entered.</p>
-                {% endif %}
+                <p>No city entered or city not found.</p>
             {% endif %}
         </div>
     </div>
@@ -85,66 +144,118 @@
     <!-- Music Player Section -->
     <div class="music-player">
         <h2>Enjoy the Music</h2>
-        <iframe id="music-iframe" width="560" height="315" 
-                src="https://www.youtube.com/embed/u9FixPMQRJ0?autoplay=1&loop=1&playlist=u9FixPMQRJ0&mute=1" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-        </iframe>
+        
+        <iframe id="music-iframe" width="560" height="315" src="https://www.youtube.com/embed/u9FixPMQRJ0?autoplay=1&loop=1&playlist=u9FixPMQRJ0&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+
+    <!-- Latest News Section -->
+<div class="latest-news">
+    <h2>Latest News</h2>
+    <div id="news-container">
+        <!-- News articles will be dynamically added here -->
+    </div>
+</div>
+
+    
 
     <script>
         window.onload = function() {
-            var cityName = "{{ data.name }}"; // Extract the city name from the server-side context
-            var cityName1 = "{{ data1.name }}"; // Extract second city name if available
-            var weatherIconCode = "{{ data.weather.0.icon }}"; // Weather icon code from Django template
-            var weatherIconCode1 = "{{ data1.weather.0.icon }}"; // Weather icon code for second city
+            const form = document.getElementById('weather-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+                var cityName = document.getElementById('city').value;
+                var cityName1 = document.getElementById('city1').value;
 
-            // Map weather icon codes to Weather Icons class names
+                fetchWeatherData(cityName, cityName1);
+                fetchLatestNews(cityName, cityName1);
+            });
+
+            // Function to fetch weather data for the cities
+            function fetchWeatherData(cityName, cityName1) {
+                const weatherApiKey = 'bdcb2704a98076394104a91574a1142e';  // Replace with your OpenWeatherMap API key
+                const weatherUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherApiKey}&units=metric`;
+                const weatherUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName1}&appid=${weatherApiKey}&units=metric`;
+
+                // Fetch weather data for city 1
+                fetch(weatherUrl1)
+                    .then(response => response.json())
+                    .then(data => {
+                        updateWeatherUI(data, 'left-city', 'weather-icon', 'city-image');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching weather data:', error);
+                    });
+
+                // Fetch weather data for city 2
+                fetch(weatherUrl2)
+                    .then(response => response.json())
+                    .then(data => {
+                        updateWeatherUI(data, 'right-city', 'weather-icon1', 'city-image1');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching weather data:', error);
+                    });
+            }
+
+            // Update weather UI with the fetched data
+            function updateWeatherUI(data, cityBoxId, iconId, imageId) {
+                if (data) {
+                    document.getElementById(cityBoxId).innerHTML = `
+                        <h2>Weather in ${data.name}</h2>
+                        <img src="https://flagcdn.com/w320/${data.sys.country.toLowerCase()}.png" alt="Flag of ${data.sys.country}" width="32" height="32">
+                        <p><i id="${iconId}" class="wi" style="font-size: 50px;"></i></p>
+                        
+                        <p>Temperature: ${data.main.temp}°C</p>
+                        <p>Condition: ${data.weather[0].description}</p>
+                        <p>Humidity: ${data.main.humidity}%</p>
+                        <p>Wind Speed: ${data.wind.speed} m/s</p>
+                    `;
+
+                    // Set weather icon
+                    const weatherIcon = document.getElementById(iconId);
+                    weatherIcon.classList.add('wi', getWeatherIconClass(data.weather[0].icon));
+
+                    // Fetch city image
+                    fetchCityImage(data.name, imageId);
+                }
+            }
+
+            // Function to get weather icon class based on the icon code
             function getWeatherIconClass(iconCode) {
-                var iconMapping = {
-                    "01d": "wi-day-sunny", // Clear day
-                    "01n": "wi-night-clear", // Clear night
-                    "02d": "wi-day-cloudy", // Partly cloudy day
-                    "02n": "wi-night-alt-cloudy", // Partly cloudy night
-                    "03d": "wi-cloud", // Cloudy
-                    "03n": "wi-cloud", // Cloudy
-                    "04d": "wi-cloudy", // Overcast
-                    "04n": "wi-cloudy", // Overcast
-                    "09d": "wi-showers", // Showers
-                    "09n": "wi-showers", // Showers
-                    "10d": "wi-rain", // Rain
-                    "10n": "wi-rain", // Rain
-                    "11d": "wi-thunderstorm", // Thunderstorm
-                    "11n": "wi-thunderstorm", // Thunderstorm
-                    "13d": "wi-snow", // Snow
-                    "13n": "wi-snow", // Snow
-                    "50d": "wi-fog", // Fog
-                    "50n": "wi-fog" // Fog
+                const iconMapping = {
+                    "01d": "wi-day-sunny", 
+                    "01n": "wi-night-clear", 
+                    "02d": "wi-day-cloudy", 
+                    "02n": "wi-night-alt-cloudy", 
+                    "03d": "wi-cloud", 
+                    "03n": "wi-cloud", 
+                    "04d": "wi-cloudy", 
+                    "04n": "wi-cloudy", 
+                    "09d": "wi-showers", 
+                    "09n": "wi-showers", 
+                    "10d": "wi-rain", 
+                    "10n": "wi-rain", 
+                    "11d": "wi-thunderstorm", 
+                    "11n": "wi-thunderstorm", 
+                    "13d": "wi-snow", 
+                    "13n": "wi-snow", 
+                    "50d": "wi-fog", 
+                    "50n": "wi-fog"
                 };
-                return iconMapping[iconCode] || "wi-cloudy"; // Default to "cloudy" if unknown
-            }
-
-            // Set the weather icons using the mapping function
-            if (weatherIconCode) {
-                document.getElementById('weather-icon').classList.add('wi', getWeatherIconClass(weatherIconCode));
-            }
-            if (weatherIconCode1) {
-                document.getElementById('weather-icon1').classList.add('wi', getWeatherIconClass(weatherIconCode1));
+                return iconMapping[iconCode] || "wi-cloudy";
             }
 
             // Function to fetch city image from Unsplash API
-            function fetchCityImage(city) {
-                var accessKey = 'YOUR_UNSPLASH_API_KEY'; // Replace with your Unsplash API key
-                var url = 'https://api.unsplash.com/photos/random?query=' + city + '&client_id=' + accessKey;
+            function fetchCityImage(city, elementId) {
+                const accessKey = 'your_unsplash_access_key';  // Replace with your Unsplash API key
+                const url = `https://api.unsplash.com/photos/random?query=${city}&client_id=${accessKey}`;
 
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        var imageUrl = data[0]?.urls?.regular;
+                        const imageUrl = data[0]?.urls?.regular;
                         if (imageUrl) {
-                            // Update the image element with the fetched image
-                            document.getElementById('city-image').src = imageUrl;
+                            document.getElementById(elementId).src = imageUrl;
                         }
                     })
                     .catch(error => {
@@ -152,32 +263,64 @@
                     });
             }
 
-            function fetchCityImage1(city) {
-                var accessKey = 'YOUR_UNSPLASH_API_KEY'; // Replace with your Unsplash API key
-                var url = 'https://api.unsplash.com/photos/random?query=' + city + '&client_id=' + accessKey;
+            function fetchLatestNews() {
+    const apiKey = '512b7cba7742cf09fc8763247def4bba';  // Replace with your actual Gnews API key
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        var imageUrl = data[0]?.urls?.regular;
-                        if (imageUrl) {
-                            // Update the image element with the fetched image
-                            document.getElementById('city-image1').src = imageUrl;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching city image:', error);
-                    });
-            }
+    // URL for general news using Gnews API
+    const url = `https://gnews.io/api/v4/top-headlines?lang=en&token=${apiKey}`;
 
-            // Fetch the images when the page loads
-            if (cityName) {
-                fetchCityImage(cityName);
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-            if (cityName1) {
-                fetchCityImage1(cityName1);
+            return response.json();
+        })
+        .then(data => {
+            const articles = data.articles || [];
+            const newsContainer = document.getElementById('news-container');
+            
+            if (newsContainer) {
+                newsContainer.innerHTML = '';  // Clear the container before adding new items
+
+                if (articles.length === 0) {
+                    newsContainer.innerHTML = '<p>No news articles available.</p>';
+                    return;
+                }
+
+                // Loop through the articles and add them to the container
+                articles.forEach(article => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.classList.add('news-item');
+                    
+                    // Get the image URL or fallback to a default image
+                    const imageUrl = article.image || article.urlToImage || 'https://via.placeholder.com/150';  // Use a placeholder if no image
+
+                    // Build the news item with the image, title, and description
+                    newsDiv.innerHTML = `
+                        <div class="news-image">
+                            <img src="${imageUrl}" alt="News Image" width="50%" height="auto" />
+                        </div>
+                        <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                        <p>${article.description || 'No description available.'}</p>
+                    `;
+                    newsContainer.appendChild(newsDiv);
+                });
+            } else {
+                console.error('News container element not found.');
             }
-        };
+        })
+        .catch(error => {
+            console.error('Error fetching latest news:', error);
+            alert('Unable to fetch the latest news. Please try again later.');
+        });
+}
+
+
+};
+
+
+        
     </script>
 </body>
 </html>
