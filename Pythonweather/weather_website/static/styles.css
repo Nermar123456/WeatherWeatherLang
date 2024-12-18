@@ -6,35 +6,49 @@
 }
 html, body {
     height: 100%;  /* Ensure both html and body take full height */
-    background-color: black;  /* Set the background color to black for both */
-    color: white;  /* Make sure the text color is white for visibility */
     font-family: Arial, sans-serif;
+    color: #e0e0e0;  /* Light text color for contrast on dark background */
+    background-color: #121212; /* Dark background color */
 }
 
-
 body {
-    background-color: black;
-    font-family: Arial, sans-serif;
-   
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;  /* Align items at the top */
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;  /* Ensures the body takes up at least the full height of the viewport */
     text-align: center;
 }
-#city-background {
-    width: 100%;
-    height: 400px; /* Adjust height as needed */
-    background-size: cover;
-    background-position: center;
+
+/* City Images Section */
+.cityImages-container {
+    display: flex;
+    gap: 20px; /* Space between the items */
+    justify-content: center; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    padding: 20px;
 }
 
+.cityImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
 
+.cityImage img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #333; /* Dark border for images */
+    border-radius: 8px;
+}
 
+/* Header Styling */
 h1 {
     margin-top: 20px;
-    color: #333;
+    color: #f1f1f1; /* Light text color for header */
 }
 
 /* Form Styling */
@@ -46,13 +60,15 @@ input[type="text"] {
     width: 200px;
     padding: 10px;
     margin: 0 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #444; /* Darker border */
     border-radius: 4px;
+    background-color: #333; /* Dark background for input fields */
+    color: #e0e0e0; /* Light text inside the input */
 }
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: yellowgreen;
+    background-color: #388E3C; /* Green color button */
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -61,7 +77,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: green;
+    background-color: #2C6B2F; /* Darker green on hover */
 }
 
 /* Weather Box Container */
@@ -72,9 +88,115 @@ button[type="submit"]:hover {
     flex-wrap: wrap;
     width: 100%;
     max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+/* Weather Box */
 .weather-box {
+    background-color: #1c1c1c; /* Dark background for the weather box */
+    border: 1px solid #444; /* Dark border */
+    border-radius: 8px;
+    padding: 20px;
+    width: 45%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    text-align: center;
+}
+
+.weather-box h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #e0e0e0; /* Light text color */
+}
+
+.weather-box p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #b0b0b0; /* Slightly lighter text for paragraphs */
+}
+
+/* Music Player */
+.music-player {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    background-color: #222; /* Dark background for the music player */
+}
+
+.music-player h2 {
+    font-size: 1.5em;
+    color: #e0e0e0; /* Light text color */
+    margin-bottom: 15px;
+}
+
+audio {
+    width: 100%;
+    border-radius: 5px;
+    background-color: #333; /* Dark background inside audio controls */
+}
+
+/* Optional Dark Accent Colors */
+a {
+    color: #81C784; /* Light green links */
+}
+
+a:hover {
+    color: #66BB6A; /* Darker green on hover */
+}
+
+#city-background {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(50%); /* Darken the background image */
+}
+/* Dark Mode Styles */
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;  /* Ensure both html and body take full height */
+    font-family: Arial, sans-serif;
+}
+
+/* Light Mode */
+html.light-mode {
+    background-color: white; /* White background for light mode */
+}
+
+body.light-mode {
+    background-color: white;  /* White background for the body in light mode */
+    color: #333; /* Dark text color for light mode */
+}
+
+
+body.light-mode body {
+    background-color: white;
+}
+
+
+/* Weather Box Container */
+body.light-mode .weather-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+body.light-mode .weather-box {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -85,21 +207,60 @@ button[type="submit"]:hover {
     text-align: center;
 }
 
-.weather-box h2 {
+body.light-mode .weather-box h2 {
     margin: 0;
     font-size: 1.5em;
     color: #333;
 }
 
-.weather-box p {
+body.light-mode .weather-box p {
     margin: 10px 0;
     font-size: 1.1em;
     color: #555;
 }
+body .light-mode .cityImages-container{
+    background-color: white;
+}
+
+body.light-mode #city1{
+    background-color: white;
+    color:black;
+}
+body.light-mode #city{
+    background-color: white;
+    color:black;
+}
+
+/* Form Styling */
+body.light-mode form {
+    margin: 20px 0;
+}
+
+body.light-mode input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+body.light-mode button[type="submit"] {
+    padding: 10px 20px;
+    background-color: yellowgreen;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+body.light-mode button[type="submit"]:hover {
+    background-color: green;
+}
 
 /* Music Player */
-.music-player {
-   
+body.light-mode .music-player {
+    background-color: white;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -110,13 +271,73 @@ button[type="submit"]:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.music-player h2 {
+body.light-mode .music-player h2 {
     font-size: 1.5em;
     color: #333;
     margin-bottom: 15px;
 }
 
-audio {
+body.light-mode audio {
     width: 100%;
     border-radius: 5px;
+}
+
+/* City Image Styling */
+body.light-mode .cityImages-container {
+    display: flex;
+    gap: 20px; /* Space between the items */
+    justify-content: center; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    padding: 20px; /* Optional padding around the container */
+}
+
+body.light-mode .cityImage {
+    display: flex;
+    flex-direction: column; /* Stack the heading and image vertically */
+    align-items: center; /* Center content inside each cityImage */
+    text-align: center; /* Center align text */
+    gap: 10px; /* Space between the heading and image */
+}
+
+body.light-mode .cityImage img {
+    max-width: 100%; /* Scale image to fit */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 8px; /* Optional rounded corners */
+}
+
+/* City Background */
+body.light-mode #city-background {
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+    background-size: cover;
+    background-position: center;
+}
+
+body.light-mode h1 {
+    margin-top: 20px;
+    color: #333;
+}
+
+
+
+
+#theme-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 24px; /* Adjust icon size */
+}
+
+#theme-toggle i {
+    color: #000;  /* Adjust icon color */
+}
+#theme-toggle i.fa-moon {
+    color: white;  /* Moon icon color is always white */
 }

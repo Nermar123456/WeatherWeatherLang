@@ -57,47 +57,72 @@
         .news-item a:hover {
             text-decoration: underline;
         }
+
         #news-container {
-    margin-top: 20px;
-}
-.news-image {
-    text-align: center;  /* Center the image */
-    margin: 0 auto;      /* Optional: ensures it centers within its container */
-}
+            margin-top: 20px;
+        }
 
-.news-image img {
-    display: inline-block;  /* Treats the image as an inline element to respect the text-align */
-}
+        .news-image {
+            text-align: center;  /* Center the image */
+            margin: 0 auto;      /* Optional: ensures it centers within its container */
+        }
 
-.news-item {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-}
+        .news-image img {
+            display: inline-block;  /* Treats the image as an inline element to respect the text-align */
+        }
 
-.news-item h3 {
-    font-size: 18px;
-    margin: 0;
-}
+        .news-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
 
-.news-item p {
-    font-size: 14px;
-    color: #555;
-}
+        .news-item h3 {
+            font-size: 18px;
+            margin: 0;
+        }
 
-.news-item a {
-    color: #007bff;
-    text-decoration: none;
-}
+        .news-item p {
+            font-size: 14px;
+            color: #555;
+        }
 
-.news-item a:hover {
-    text-decoration: underline;
-}
+        .news-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            text-decoration: underline;
+        }
 
     </style>
+       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Weather Weather Lang</h1>
+    <button id="theme-toggle" onclick="toggleTheme()">
+        <i id="theme-icon" class="fas fa-sun"></i>  <!-- Sun Icon by default -->
+    </button>
+    
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            document.documentElement.classList.toggle('light-mode');
+    
+            const icon = document.getElementById("theme-icon");
+    
+            // Change icon based on the current theme
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove("fas", "fa-moon");
+                icon.classList.add("fas", "fa-sun");  // Sun Icon
+            } else {
+                icon.classList.remove("fas", "fa-sun");
+                icon.classList.add("fas", "fa-moon"); // Moon Icon
+            }
+        }
+    </script>
+    
+    <h1><span style="color:red">W</span>eather <span style="color:red">W</span>eather <span style="color:red">L</span>ang</h1>
 
     <!-- Forms for Input -->
     <form method="get" id="weather-form">
@@ -110,11 +135,11 @@
     <div class="weather-container">
         <!-- Left City Weather Box -->
         <div id="left-city" class="weather-box">
+
             {% if data %}
                 <h2>Weather in {{ data.name }}</h2>
                 <img src="https://flagcdn.com/w320/{{ data.sys.country | lower }}.png" alt="Flag of {{ data.sys.country }}" width="32" height="32">
                 <p><i id="weather-icon" class="wi" style="font-size: 50px;"></i></p>
-                <!-- <p><img id="city-image" src="" alt="City Image" width="200" height="150"></p> -->
                 <p>Temperature: {{ data.main.temp }}°C</p>
                 <p>Condition: {{ data.weather.0.description }}</p>
                 <p>Humidity: {{ data.main.humidity }}%</p>
@@ -126,11 +151,11 @@
 
         <!-- Right City Weather Box -->
         <div id="right-city" class="weather-box">
+            
             {% if data1 %}
                 <h2>Weather in {{ data1.name }}</h2>
                 <img src="https://flagcdn.com/w320/{{ data1.sys.country | lower }}.png" alt="Flag of {{ data1.sys.country }}" width="32" height="32">
                 <p><i id="weather-icon1" class="wi" style="font-size: 50px;"></i></p>
-                <!-- <p><img id="city-image1" src="" alt="City Image" width="200" height="150"></p> -->
                 <p>Temperature: {{ data1.main.temp }}°C</p>
                 <p>Condition: {{ data1.weather.0.description }}</p>
                 <p>Humidity: {{ data1.main.humidity }}%</p>
@@ -140,6 +165,18 @@
             {% endif %}
         </div>
     </div>
+    <div class="cityImages-container">
+        <div class="cityImage">
+            {% load static %}
+            <img id="city-image" src="{% static 'images/R1.jpg' %}" alt="City Image" width="320" height="214">
+                    </div>
+        <div class="cityImage">
+            {% load static %}
+            <img id="city-image2" src="{% static 'images/R1.jpg' %}" alt="City Image" width="320" height="214">
+                    </div>
+    </div>
+    
+    <div class="cityImages-container">
 
     <!-- Music Player Section -->
     <div class="music-player">
@@ -149,178 +186,279 @@
     </div>
 
     <!-- Latest News Section -->
-<div class="latest-news">
-    <h2>Latest News</h2>
-    <div id="news-container">
-        <!-- News articles will be dynamically added here -->
+    <div class="latest-news" style="color: black;">
+        <h2>Latest News</h2>
+        <div id="news-container">
+            <!-- News articles will be dynamically added here -->
+        </div>
     </div>
-</div>
 
-    
+   </div>
 
-    <script>
-        window.onload = function() {
-            const form = document.getElementById('weather-form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent form submission
-                var cityName = document.getElementById('city').value;
-                var cityName1 = document.getElementById('city1').value;
+<script>
+    window.onload = function () {
+        const form = document.getElementById('weather-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            var cityName = document.getElementById('city').value;
+            var cityName1 = document.getElementById('city1').value;
 
-                fetchWeatherData(cityName, cityName1);
-                fetchLatestNews(cityName, cityName1);
-            });
+            fetchWeatherData(cityName, cityName1);
+            fetchLatestNews();
+        });
 
-            // Function to fetch weather data for the cities
-            function fetchWeatherData(cityName, cityName1) {
-                const weatherApiKey = 'bdcb2704a98076394104a91574a1142e';  // Replace with your OpenWeatherMap API key
-                const weatherUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherApiKey}&units=metric`;
-                const weatherUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName1}&appid=${weatherApiKey}&units=metric`;
+        // Function to fetch weather data for the cities
+        function fetchWeatherData(cityName, cityName1) {
+            const weatherApiKey = 'bdcb2704a98076394104a91574a1142e'; // Replace with your OpenWeatherMap API key
+            const weatherUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherApiKey}&units=metric`;
+            const weatherUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName1}&appid=${weatherApiKey}&units=metric`;
 
-                // Fetch weather data for city 1
-                fetch(weatherUrl1)
-                    .then(response => response.json())
-                    .then(data => {
-                        updateWeatherUI(data, 'left-city', 'weather-icon', 'city-image');
-                    })
-                    .catch(error => {
-                        console.error('Error fetching weather data:', error);
-                    });
-
-                // Fetch weather data for city 2
-                fetch(weatherUrl2)
-                    .then(response => response.json())
-                    .then(data => {
-                        updateWeatherUI(data, 'right-city', 'weather-icon1', 'city-image1');
-                    })
-                    .catch(error => {
-                        console.error('Error fetching weather data:', error);
-                    });
-            }
-
-            // Update weather UI with the fetched data
-            function updateWeatherUI(data, cityBoxId, iconId, imageId) {
-                if (data) {
-                    document.getElementById(cityBoxId).innerHTML = `
-                        <h2>Weather in ${data.name}</h2>
-                        <img src="https://flagcdn.com/w320/${data.sys.country.toLowerCase()}.png" alt="Flag of ${data.sys.country}" width="32" height="32">
-                        <p><i id="${iconId}" class="wi" style="font-size: 50px;"></i></p>
-                        
-                        <p>Temperature: ${data.main.temp}°C</p>
-                        <p>Condition: ${data.weather[0].description}</p>
-                        <p>Humidity: ${data.main.humidity}%</p>
-                        <p>Wind Speed: ${data.wind.speed} m/s</p>
-                    `;
-
-                    // Set weather icon
-                    const weatherIcon = document.getElementById(iconId);
-                    weatherIcon.classList.add('wi', getWeatherIconClass(data.weather[0].icon));
-
-                    // Fetch city image
-                    fetchCityImage(data.name, imageId);
-                }
-            }
-
-            // Function to get weather icon class based on the icon code
-            function getWeatherIconClass(iconCode) {
-                const iconMapping = {
-                    "01d": "wi-day-sunny", 
-                    "01n": "wi-night-clear", 
-                    "02d": "wi-day-cloudy", 
-                    "02n": "wi-night-alt-cloudy", 
-                    "03d": "wi-cloud", 
-                    "03n": "wi-cloud", 
-                    "04d": "wi-cloudy", 
-                    "04n": "wi-cloudy", 
-                    "09d": "wi-showers", 
-                    "09n": "wi-showers", 
-                    "10d": "wi-rain", 
-                    "10n": "wi-rain", 
-                    "11d": "wi-thunderstorm", 
-                    "11n": "wi-thunderstorm", 
-                    "13d": "wi-snow", 
-                    "13n": "wi-snow", 
-                    "50d": "wi-fog", 
-                    "50n": "wi-fog"
-                };
-                return iconMapping[iconCode] || "wi-cloudy";
-            }
-
-            // Function to fetch city image from Unsplash API
-            function fetchCityImage(city, elementId) {
-                const accessKey = 'your_unsplash_access_key';  // Replace with your Unsplash API key
-                const url = `https://api.unsplash.com/photos/random?query=${city}&client_id=${accessKey}`;
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        const imageUrl = data[0]?.urls?.regular;
-                        if (imageUrl) {
-                            document.getElementById(elementId).src = imageUrl;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching city image:', error);
-                    });
-            }
-
-            function fetchLatestNews() {
-    const apiKey = '512b7cba7742cf09fc8763247def4bba';  // Replace with your actual Gnews API key
-
-    // URL for general news using Gnews API
-    const url = `https://gnews.io/api/v4/top-headlines?lang=en&token=${apiKey}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const articles = data.articles || [];
-            const newsContainer = document.getElementById('news-container');
-            
-            if (newsContainer) {
-                newsContainer.innerHTML = '';  // Clear the container before adding new items
-
-                if (articles.length === 0) {
-                    newsContainer.innerHTML = '<p>No news articles available.</p>';
-                    return;
-                }
-
-                // Loop through the articles and add them to the container
-                articles.forEach(article => {
-                    const newsDiv = document.createElement('div');
-                    newsDiv.classList.add('news-item');
-                    
-                    // Get the image URL or fallback to a default image
-                    const imageUrl = article.image || article.urlToImage || 'https://via.placeholder.com/150';  // Use a placeholder if no image
-
-                    // Build the news item with the image, title, and description
-                    newsDiv.innerHTML = `
-                        <div class="news-image">
-                            <img src="${imageUrl}" alt="News Image" width="50%" height="auto" />
-                        </div>
-                        <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                        <p>${article.description || 'No description available.'}</p>
-                    `;
-                    newsContainer.appendChild(newsDiv);
+            // Fetch weather data for city 1
+            fetch(weatherUrl1)
+                .then(response => response.json())
+                .then(data => {
+                    updateWeatherUI(data, 'left-city', 'weather-icon', 'city-image');
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
                 });
+
+            // Fetch weather data for city 2
+            fetch(weatherUrl2)
+                .then(response => response.json())
+                .then(data => {
+                    updateWeatherUI(data, 'right-city', 'weather-icon1', 'city-image1');
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                });
+        }
+
+        // Update weather UI with the fetched data
+        // function updateWeatherUI(data, cityBoxId, iconId, imageId) {
+        //     if (data) {
+        //         document.getElementById(cityBoxId).innerHTML = `
+        //             <h2>Weather in ${data.name}</h2>
+        //             <img src="https://flagcdn.com/w320/${data.sys.country.toLowerCase()}.png" alt="Flag of ${data.sys.country}" width="32" height="32">
+        //             <p><i id="${iconId}" class="wi" style="font-size: 50px;"></i></p>
+        //             <p>Temperature: ${data.main.temp}°C</p>
+        //             <p>Condition: ${data.weather[0].description}</p>
+        //             <p>Humidity: ${data.main.humidity}%</p>
+        //             <p>Wind Speed: ${data.wind.speed} m/s</p>
+        //         `;
+
+        //         // Set weather icon
+        //         const weatherIcon = document.getElementById(iconId);
+        //         weatherIcon.classList.add('wi', getWeatherIconClass(data.weather[0].icon));
+
+        //         // Fetch city image
+        //         fetchCityImage(data.name, imageId);
+        //     }
+        // }
+        function updateWeatherUI(data, cityBoxId, iconId, imageId) {
+    if (data) {
+        document.getElementById(cityBoxId).innerHTML = `
+            <h2><span style="color:red">W</span>eather in ${data.name}</h2>
+            <img src="https://flagcdn.com/w320/${data.sys.country.toLowerCase()}.png" alt="Flag of ${data.sys.country}" width="32" height="32">
+            <p><img id="${iconId}" src="" alt="Weather Icon" style="width: 50px; height: 50px;"></p>
+            <p>Temperature: ${data.main.temp}°C</p>
+            <p>Condition: ${data.weather[0].description}</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+            <p>Wind Speed: ${data.wind.speed} m/s</p>
+        `;
+
+        // Set weather icon using the local path
+        const weatherIcon = document.getElementById(iconId);
+        weatherIcon.src = getWeatherIconPath(data.weather[0].icon);
+
+        // Fetch city image
+        fetchCityImage(data.name, imageId);
+    }
+}
+
+/*
+
+        // Function to get weather icon class based on the icon code
+        function getWeatherIconClass(iconCode) {
+            const iconMapping = {
+                "01d": "wi-day-sunny",
+                "01n": "wi-night-clear",
+                "02d": "wi-day-cloudy",
+                "02n": "wi-night-alt-cloudy",
+                "03d": "wi-cloud",
+                "03n": "wi-cloud",
+                "04d": "wi-cloudy",
+                "04n": "wi-cloudy",
+                "09d": "wi-showers",
+                "09n": "wi-showers",
+                "10d": "wi-rain",
+                "10n": "wi-rain",
+                "11d": "wi-thunderstorm",
+                "11n": "wi-thunderstorm",
+                "13d": "wi-snow",
+                "13n": "wi-snow",
+                "50d": "wi-fog",
+                "50n": "wi-fog"
+            };
+            return iconMapping[iconCode] || "wi-cloudy";
+        }
+            */
+
+            function getWeatherIconPath(iconCode) {
+    const iconMapping = {
+        "01d": "static/images/weather/sun.png",
+        "01n": "static/images/weather/night-clear.png",
+        "02d": "static/images/weather/day-cloudy.png",
+        "02n": "static/images/weather/night-cloudy.png",
+        "03d": "static/images/weather/cloud.jpg",
+        "03n": "static/images/weather/cloud.jpg",
+        "04d": "static/images/weather/cloudy.jpg",
+        "04n": "static/images/weather/cloudy.jpg",
+        "09d": "static/images/weather/showers.png",
+        "09n": "static/images/weather/showers.png",
+        "10d": "static/images/weather/rain.png",
+        "10n": "static/images/weather/rain.png",
+        "11d": "static/images/weather/thunderstorm.png",
+        "11n": "static/images/weather/thunderstorm.png",
+        "13d": "static/images/weather/snow.jpg",
+        "13n": "static/images/weather/snow.jpg",
+        "50d": "static/images/weather/fog.png",
+        "50n": "static/images/weather/fog.png"
+    };
+    return iconMapping[iconCode] || "static/images/weather/default.png"; // Fallback image
+}
+
+
+        // Function to fetch city image from Pexels API
+        // Function to fetch city image from Pexels API
+function fetchCityImage(city, elementId) {
+    if (!city) {
+        console.error("City name is required to fetch an image.");
+        return;
+    }
+
+    const pexelsApiKey = 'i6bqpBBhwnYOjD5xwdXGissmZdbuAMlKL589UKtxPx5RF91SLUARZvzH'; // Pexels API key
+    const openCageApiKey = 'e69a06bca27f4edf9e3926f66c4d6df7'; // OpenCage API key
+
+    const fetchImage = (query) => {
+        const url = `https://api.pexels.com/v1/search?query=${query}&per_page=1&order_by=popular`;
+        return fetch(url, {
+            headers: {
+                Authorization: pexelsApiKey,
+            },
+        })
+            .then(response => response.json())
+            .then(data => data.photos?.[0]?.src.medium || null)
+            .catch(error => {
+                console.error('Error fetching image:', error);
+                return null;
+            });
+    };
+
+    const getCountryFromCity = (city) => {
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${openCageApiKey}`;
+        return fetch(url)
+            .then(response => response.json())
+            .then(data => data.results?.[0]?.components.country || 'Unknown')
+            .catch(error => {
+                console.error('Error fetching country data:', error);
+                return 'Unknown';
+            });
+    };
+
+    // Fetch city image or fallback to country image
+    fetchImage(city)
+        .then(image => {
+            const imageElement = document.getElementById(elementId);
+            if (image && imageElement) {
+                imageElement.src = image;
             } else {
-                console.error('News container element not found.');
+                console.log(`No image for ${city}. Fetching country image...`);
+                getCountryFromCity(city)
+                    .then(country => fetchImage(country))
+                    .then(countryImage => {
+                        if (countryImage && imageElement) {
+                            imageElement.src = countryImage;
+                        } else if (imageElement) {
+                            imageElement.src = 'https://via.placeholder.com/300'; // Placeholder for no image
+                        }
+                    });
             }
+        });
+}
+
+// Fetch images for both cities with unique IDs
+function fetchWeatherData(cityName, cityName1) {
+    const weatherApiKey = 'bdcb2704a98076394104a91574a1142e'; // Replace with your OpenWeatherMap API key
+    const weatherUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${weatherApiKey}&units=metric`;
+    const weatherUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${cityName1}&appid=${weatherApiKey}&units=metric`;
+
+    // Fetch weather data for city 1
+    fetch(weatherUrl1)
+        .then(response => response.json())
+        .then(data => {
+            updateWeatherUI(data, 'left-city', 'weather-icon', 'city-image');
+            fetchCityImage(data.name, 'city-image'); // Unique image ID for city 1
         })
         .catch(error => {
-            console.error('Error fetching latest news:', error);
-            alert('Unable to fetch the latest news. Please try again later.');
+            console.error('Error fetching weather data:', error);
+        });
+
+    // Fetch weather data for city 2
+    fetch(weatherUrl2)
+        .then(response => response.json())
+        .then(data => {
+            updateWeatherUI(data, 'right-city', 'weather-icon1', 'city-image2');
+            fetchCityImage(data.name, 'city-image2'); // Unique image ID for city 2
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
         });
 }
 
 
-};
+        // Fetch latest news
+        function fetchLatestNews() {
+            const apiKey = '512b7cba7742cf09fc8763247def4bba'; // Replace with your actual Gnews API key
+            const url = `https://gnews.io/api/v4/top-headlines?lang=en&token=${apiKey}`;
 
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const articles = data.articles || [];
+                    const newsContainer = document.getElementById('news-container');
 
-        
-    </script>
+                    if (newsContainer) {
+                        newsContainer.innerHTML = ''; // Clear the container before adding new items
+
+                        if (articles.length === 0) {
+                            newsContainer.innerHTML = '<p>No news articles available.</p>';
+                            return;
+                        }
+
+                        articles.forEach(article => {
+                            const newsDiv = document.createElement('div');
+                            newsDiv.classList.add('news-item');
+
+                            const imageUrl = article.image || article.urlToImage || 'https://via.placeholder.com/150';
+
+                            newsDiv.innerHTML = `
+                                <div class="news-image">
+                                    <img src="${imageUrl}" alt="News Image" width="50%" height="auto" />
+                                </div>
+                                <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                                <p>${article.description || 'No description available.'}</p>
+                            `;
+                            newsContainer.appendChild(newsDiv);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching latest news:', error);
+                });
+        }
+    };
+</script>
+
 </body>
 </html>
