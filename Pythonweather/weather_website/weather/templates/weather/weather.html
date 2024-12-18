@@ -101,7 +101,7 @@
 </head>
 <body>
     <button id="theme-toggle" onclick="toggleTheme()">
-        <i id="theme-icon" class="fas fa-sun"></i>  <!-- Sun Icon by default -->
+        <i id="theme-icon" class="fas fa-moon"></i>  <!-- Sun Icon by default -->
     </button>
     
     <script>
@@ -126,8 +126,9 @@
 
     <!-- Forms for Input -->
     <form method="get" id="weather-form">
-        <input type="text" name="city" id="city" placeholder="Enter city" value="{{ city }}">
-        <input type="text" name="city1" id="city1" placeholder="Enter another city" value="{{ city1 }}">
+        <input type="text" name="city" id="city" placeholder="Enter city" value="{{ city|default:'' }}">
+        <input type="text" name="city1" id="city1" placeholder="Enter another city" value="{{ city1|default:'' }}">
+
         <button type="submit">Get Weather</button>
     </form>
 
@@ -180,14 +181,16 @@
 
     <!-- Music Player Section -->
     <div class="music-player">
-        <h2>Enjoy the Music</h2>
-        
+        <h2><span style="color: red;">E</span>njoy the Music</h2>
+        <!--<iframe src="https://www.xvideos.com/embedframe/uemciib7c38" frameborder=0 width=510 height=400 scrolling=no allowfullscreen=allowfullscreen></iframe>
+    -->
         <iframe id="music-iframe" width="560" height="315" src="https://www.youtube.com/embed/u9FixPMQRJ0?autoplay=1&loop=1&playlist=u9FixPMQRJ0&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    
     </div>
 
     <!-- Latest News Section -->
     <div class="latest-news" style="color: black;">
-        <h2>Latest News</h2>
+        <h2><span style="color: red;">L</span>atest News</h2>
         <div id="news-container">
             <!-- News articles will be dynamically added here -->
         </div>
