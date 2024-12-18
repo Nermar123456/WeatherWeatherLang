@@ -157,20 +157,8 @@ a:hover {
     background-position: center;
     filter: brightness(50%); /* Darken the background image */
 }
-/* Dark Mode Styles */
-/* General Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
-html, body {
-    height: 100%;  /* Ensure both html and body take full height */
-    font-family: Arial, sans-serif;
-}
-
-/* Light Mode */
+/* Light Mode Styles */
 html.light-mode {
     background-color: white; /* White background for light mode */
 }
@@ -180,12 +168,9 @@ body.light-mode {
     color: #333; /* Dark text color for light mode */
 }
 
-
 body.light-mode body {
     background-color: white;
 }
-
-
 
 /* Weather Box Container */
 body.light-mode .weather-container {
@@ -219,6 +204,7 @@ body.light-mode .weather-box p {
     font-size: 1.1em;
     color: #555;
 }
+
 body .light-mode .cityImages-container{
     background-color: white;
 }
@@ -227,6 +213,7 @@ body.light-mode #city1{
     background-color: white;
     color:black;
 }
+
 body.light-mode #city{
     background-color: white;
     color:black;
@@ -245,10 +232,10 @@ body.light-mode input[type="text"] {
     border-radius: 4px;
 }
 
-
 body.light-mode button[type="submit"] {
     background-color: rgb(201, 8, 8);
 }
+
 body.light-mode button[type="submit"]:hover {
     background-color: rgb(65, 13, 13);
 }
@@ -315,8 +302,60 @@ body.light-mode h1 {
     color: #333;
 }
 
+/* Responsive Styles */
+@media screen and (max-width: 1200px) {
+    .weather-box {
+        width: 48%; /* Reduce width to fit more content */
+    }
 
+    .cityImage img {
+        max-width: 90%; /* Ensure images are responsive */
+    }
 
+    .music-player {
+        height: 400px; /* Adjust music player height for smaller screens */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .weather-box {
+        width: 100%; /* Stack weather boxes vertically on smaller screens */
+    }
+
+    .cityImages-container {
+        flex-direction: column; /* Stack city images vertically */
+    }
+
+    .cityImage img {
+        width: 90%; /* Ensure images scale well on small screens */
+    }
+
+    .music-player {
+        height: 350px; /* Adjust height */
+    }
+
+    input[type="text"] {
+        width: 100%; /* Make input fields full width on smaller screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.5em; /* Make header text smaller on very small screens */
+    }
+
+    .weather-box {
+        padding: 15px; /* Adjust padding for small screens */
+    }
+
+    .music-player {
+        height: 300px; /* Further reduce music player height */
+    }
+
+    .cityImage img {
+        width: 100%; /* Full width for city images on very small screens */
+    }
+}
 
 #theme-toggle {
     position: fixed;
@@ -336,4 +375,3 @@ body.light-mode h1 {
 #theme-toggle i.fa-moon {
     color: white;  /* Moon icon color is always white */
 }
-
